@@ -1,33 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-class CoinsScreen extends Component {
+const CoinsScreen = ( props ) => {
 
-    handlePress = () => {
-        console.log( "go to detail", this.props );
-        this.props.navigation.navigate('Coin Detail');
+    const handlePress = () => {
+        console.log( "go to detail", props );
+        props.navigation.navigate('Coin Detail');
     };
 
-    render() {
-        return (
-            <View
-                style={ styles.container }
+    return (
+        <View
+            style={ styles.container }
+        >
+            <Text
+                style={ styles.titleText }
+            >Coins Screen</Text>
+            <Pressable
+                onPress={ handlePress }
+                style={ styles.btn }
             >
                 <Text
-                    style={ styles.titleText }
-                >Coins Screen</Text>
-                <Pressable
-                    onPress={ this.handlePress }
-                    style={ styles.btn }
-                >
-                    <Text
-                        style={ styles.btnText }
-                    >Ir a detail</Text>
-                </Pressable>
-            </View>
-        );
-    }    
-}
+                    style={ styles.btnText }
+                >Ir a detail</Text>
+            </Pressable>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
