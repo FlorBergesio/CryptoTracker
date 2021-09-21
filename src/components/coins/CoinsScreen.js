@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import Http from '../../libs/http';
 
 const CoinsScreen = ( props ) => {
+
+    useEffect( async () => {
+        const coins = await Http.instance.get("https://api.coinlore.net/api/tickers/");
+        console.log( "coins", coins );
+    }, [] );
 
     const handlePress = () => {
         console.log( "go to detail", props );
