@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import Http from '../../libs/http';
+import CoinsItem from "./CoinsItem";
 
 const CoinsScreen = ( props ) => {
+    const [ coins, setCoins ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
 
     useEffect( async () => {
-        const coins = await Http.instance.get("https://api.coinlore.net/api/tickers/");
-        console.log( "coins", coins );
+        setLoading( true );
+        const res = await Http.instance.get("https://api.coinlore.net/api/tickers/");
+        setCoins( res.data );
+        setLoading( false );
     }, [] );
 
     const handlePress = () => {
@@ -18,9 +23,18 @@ const CoinsScreen = ( props ) => {
         <View
             style={ styles.container }
         >
+            { loading ? 
+                <ActivityIndicator
+                    style={ styles.loading }
+                    color="#fff"
+                    size="large"
+                /> 
+                : null   
+            }
             <Text
                 style={ styles.titleText }
             >Coins Screen</Text>
+
             <Pressable
                 onPress={ handlePress }
                 style={ styles.btn }
@@ -29,6 +43,13 @@ const CoinsScreen = ( props ) => {
                     style={ styles.btnText }
                 >Ir a detail</Text>
             </Pressable>
+
+            <FlatList
+                data={ coins }
+                renderItem={ ({ item }) => (
+                    <CoinsItem item={ item } />
+                )}
+            />
         </View>
     );
 };
@@ -36,10 +57,10 @@ const CoinsScreen = ( props ) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "red",
+        backgroundColor: "#fff",
     },
     titleText: {
-        color: "#fff",
+        color: "black",
         textAlign: "center"
     },
     btn: {
@@ -51,6 +72,9 @@ const styles = StyleSheet.create({
     btnText: {
         color: "#fff",
         textAlign: "center"
+    },
+    loading: {
+        marginTop: 60
     }
 });
 
