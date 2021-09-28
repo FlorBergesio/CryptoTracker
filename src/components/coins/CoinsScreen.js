@@ -15,9 +15,8 @@ const CoinsScreen = ( props ) => {
         setLoading( false );
     }, [] );
 
-    const handlePress = () => {
-        console.log( "go to detail", props );
-        props.navigation.navigate('Coin Detail');
+    const handlePress = ( coin ) => {
+        props.navigation.navigate('Coin Detail', { coin });
     };
 
     return (
@@ -32,23 +31,14 @@ const CoinsScreen = ( props ) => {
                 /> 
                 : null   
             }
-            <Text
-                style={ styles.titleText }
-            >Coins Screen</Text>
-
-            <Pressable
-                onPress={ handlePress }
-                style={ styles.btn }
-            >
-                <Text
-                    style={ styles.btnText }
-                >Ir a detail</Text>
-            </Pressable>
-
+            
             <FlatList
                 data={ coins }
                 renderItem={ ({ item }) => (
-                    <CoinsItem item={ item } />
+                    <CoinsItem
+                        item={ item }
+                        onPress={ () => handlePress( item ) }
+                    />
                 )}
             />
         </View>
